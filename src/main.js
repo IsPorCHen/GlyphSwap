@@ -7,5 +7,4 @@
 // @grant        GM_registerMenuCommand
 // ==/UserScript==
 
-import { recognize } from './core/ocr'
-//console.log('GlyphSwap loaded')
+console.log('GlyphSwap loaded')
