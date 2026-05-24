@@ -8,9 +8,11 @@ export class YandexOcrClient {
             const formData = new FormData();
             formData.append('file', imageBlob, 'image.jpg');
 
+            const url = `${this.apiUrl}?srv=tr-image&lang=en`;
+
             GM_xmlhttpRequest({
                 method: 'POST',
-                url: `${this.apiUrl}?srv=tr-image`,
+                url: url,
                 data: formData,
                 headers: {
                     'Origin': 'https://translate.yandex.ru',
