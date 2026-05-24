@@ -29,8 +29,7 @@ function bootstrap() {
 
             console.log('[GlyphSwap] OCR successful! Extracted blocks:', ocrResult);
 
-            const renderer = new ImageOverlayRenderer();
-            renderer.render(imageElement, ocrResult.data.blocks);
+            await orchestrator.translateAndRender(imageElement, ocrResult);
 
         } catch (error) {
             console.error('[GlyphSwap] Error processing image:', error);
