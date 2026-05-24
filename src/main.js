@@ -1,34 +1,32 @@
 import { ImageHoverWidget } from './core/imageHoverWidget.js';
 import { SecureImageFetcher } from './core/secureImageFetcher.js';
-import { YandexOcrTranslationClient } from './core/yandexOcrTranslationClient.js';
 import { ImageCompressor } from './core/imageCompressor.js';
+import { YandexOcrClient } from './core/yandexOcrClient.js';
 
 function bootstrap() {
     console.log('[GlyphSwap] Initialization started.');
 
     const imageFetcher = new SecureImageFetcher();
-    const imageCompressor = new ImageCompressor(); // Defaults to 1MB limit
-    const translationClient = new YandexOcrTranslationClient('ru');
+    const imageCompressor = new ImageCompressor();
+    const ocrClient = new YandexOcrClient();
 
     const handleImageTranslationRequest = async (imageElement) => {
         try {
             console.log('[GlyphSwap] Intercepted image. Fetching blob...', imageElement.src);
 
             let imageBlob = await imageFetcher.fetchAsBlob(imageElement.src);
-            console.log(`[GlyphSwap] Blob extracted. Original size: ${imageBlob.size} bytes.`);
-
-            // Step 1.5: Compress image if it's too large for Yandex API
             imageBlob = await imageCompressor.compressIfNeeded(imageBlob);
-            console.log(`[GlyphSwap] Final blob size to send: ${imageBlob.size} bytes.`);
 
-            const translationResult = await translationClient.translateImage(imageBlob);
+            console.log(`[GlyphSwap] Sending blob (${imageBlob.size} bytes) to Yandex OCR...`);
 
-            console.log('[GlyphSwap] Translation successful! Yandex response:', translationResult);
-            alert('Перевод успешен! Открой консоль (F12), чтобы посмотреть структуру ответа.');
+            const ocrResult = await ocrClient.extractTextBlocks(imageBlob);
+
+            console.log('[GlyphSwap] OCR successful! Extracted blocks:', ocrResult);
+            alert('Текст и координаты успешно найдены! Посмотри объект в консоли.');
 
         } catch (error) {
             console.error('[GlyphSwap] Error processing image:', error);
-            alert('Ошибка при переводе картинки: ' + error.message);
+            alert('Ошибка при обработке картинки: ' + error.message);
         }
     };
 
