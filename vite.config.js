@@ -12,11 +12,11 @@ export default defineConfig({
             userscript: {
                 name: 'GlyphSwap',
                 namespace: 'http://tampermonkey.net/',
-                version: '0.1.0',
-                description: 'Translates images in browser via context menu',
+                version: '0.1.1',
+                description: 'Translates images in browser via hover widget',
                 match: ['*://*/*'],
                 grant: ['GM_xmlhttpRequest'],
-                connect: ['translate.yandex.net'],
+                connect: ['translate.yandex.net', '*'],
             },
             build: {
                 fileName: 'glyphswap.user.js',
