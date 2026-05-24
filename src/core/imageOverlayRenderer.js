@@ -21,7 +21,6 @@ export class ImageOverlayRenderer {
             if (!boxCoords || !Array.isArray(boxCoords) || boxCoords.length < 8) return;
 
             const coords = boxCoords.map(Number);
-
             const x = Math.min(coords[0], coords[2], coords[4], coords[6]);
             const y = Math.min(coords[1], coords[3], coords[5], coords[7]);
             const width = Math.max(coords[0], coords[2], coords[4], coords[6]) - x;
@@ -45,6 +44,22 @@ export class ImageOverlayRenderer {
             }
         });
 
-        imageElement.src = canvas.toDataURL('image/jpeg', 0.9);
+        try {
+            imageElement.src = canvas.toDataURL('image/jpeg', 0.9);
+        } catch (e) {
+            console.warn('[GlyphSwap] Tainted canvas detected. Replacing <img> with <canvas> in DOM.');
+
+            canvas.className = imageElement.className;
+            canvas.style.cssText = imageElement.style.cssText;
+
+            if (!canvas.style.width) canvas.style.width = '100%';
+            if (!canvas.style.height) canvas.style.height = 'auto';
+            if (!canvas.style.maxWidth) canvas.style.maxWidth = '100%';
+            canvas.style.objectFit = 'contain';
+
+            if (imageElement.parentNode) {
+                imageElement.parentNode.replaceChild(canvas, imageElement);
+            }
+        }
     }
 }
