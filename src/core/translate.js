@@ -1,22 +1,10 @@
-const API_URL = 'https://translate.argosopentech.com/translate'
-
 export async function translate(text, target = 'ru') {
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            q: text,
-            source: 'auto',
-            target
-        })
-    })
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${target}&dt=t&q=${encodeURIComponent(text)}`
 
+    const response = await fetch(url)
     if (!response.ok) {
         throw new Error(`Translation failed: ${response.status}`)
     }
-
     const data = await response.json()
-    return data.translatedText
+    return data[0].map(item => item[0]).join('')
 }

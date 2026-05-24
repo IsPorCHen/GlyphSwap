@@ -1,10 +1,17 @@
-// ==UserScript==
-// @name         GlyphSwap
-// @namespace    https://github.com/IsPorCHen/GlyphSwap
-// @version      0.1.0
-// @description  Translate image text in browser
-// @match        *://*/*
-// @grant        GM_registerMenuCommand
-// ==/UserScript==
+import { ImageContextMenuInterceptor } from './core/imageContextMenuInterceptor.js';
 
-console.log('GlyphSwap loaded')
+function bootstrap() {
+    console.log('[GlyphSwap] Initialization started.');
+
+    // The callback isolates the UI interactor from the actual translation logic
+    const handleImageTranslationRequest = (imageElement) => {
+        console.log('[GlyphSwap] Image intercepted for translation:', imageElement.src);
+    };
+
+    const contextMenuInterceptor = new ImageContextMenuInterceptor(handleImageTranslationRequest);
+    contextMenuInterceptor.attachListeners();
+
+    console.log('[GlyphSwap] Successfully injected context menu interceptor.');
+}
+
+bootstrap();
