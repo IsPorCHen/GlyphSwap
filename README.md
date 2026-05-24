@@ -14,7 +14,7 @@
 ## Installation
 1. **Userscript Manager:** Ensure you have [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey](https://violentmonkey.github.io/) installed in your browser.
 2. **Install Script:** Click on the link below to install the latest version:
-   [**Install GlyphSwap**](https://github.com/IsPorCHen/GlyphSwap/raw/main/https://github.com/IsPorCHen/GlyphSwap/releases/latest/download/glyphswap.user.js)
+   [**Install GlyphSwap**](https://github.com/IsPorCHen/GlyphSwap/releases/download/v1.0.0/glyphswap.user.js)
 
 ## How to Use
 1. Once installed, navigate to any website containing images with text.
