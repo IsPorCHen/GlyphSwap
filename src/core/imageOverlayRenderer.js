@@ -75,7 +75,7 @@ export class ImageOverlayRenderer {
 
         try {
             imageElement.src = canvas.toDataURL('image/jpeg', 0.95);
-        } catch (_) {
+        } catch {
             canvas.className = imageElement.className;
             canvas.style.cssText = imageElement.style.cssText;
 

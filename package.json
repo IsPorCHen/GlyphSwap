@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src",
-    "test": "vitest"
+    "test": "vitest --environment jsdom"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.4.0",
     "globals": "^17.6.0",
+    "jsdom": "^29.1.1",
     "prettier": "^3.8.3",
     "vite": "^8.0.14",
     "vite-plugin-monkey": "^8.0.5",

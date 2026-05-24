@@ -32,7 +32,7 @@ export class YandexOcrClient {
                         reject(new Error(`Yandex OCR returned status ${response.status}`));
                     }
                 },
-                onerror: (err) => reject(new Error('Network error')),
+                onerror: () => reject(new Error('Network error')),
             });
         });
     }
