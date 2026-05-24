@@ -1,3 +1,4 @@
+/* global GM_xmlhttpRequest */
 export class YandexOcrClient {
     constructor() {
         this.apiUrl = 'https://translate.yandex.net/ocr/v1.1/recognize';

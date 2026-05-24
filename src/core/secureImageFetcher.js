@@ -1,3 +1,4 @@
+/* global GM_xmlhttpRequest */
 export class SecureImageFetcher {
     /**
      * Fetches an image via Tampermonkey API to bypass strict CORS policies.
