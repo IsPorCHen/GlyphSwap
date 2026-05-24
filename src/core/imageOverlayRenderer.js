@@ -1,10 +1,5 @@
 export class ImageOverlayRenderer {
     render(imageElement, blocks) {
-        if (!blocks || !Array.isArray(blocks)) {
-            console.warn('[GlyphSwap] No valid blocks provided to renderer.');
-            return;
-        }
-
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
 
@@ -12,13 +7,8 @@ export class ImageOverlayRenderer {
         canvas.height = imageElement.naturalHeight;
         ctx.drawImage(imageElement, 0, 0);
 
-        ctx.strokeStyle = '#ff0044';
-        ctx.lineWidth = 2;
-        ctx.fillStyle = '#ff0044';
-        ctx.font = '16px Arial';
-
-        const drawBox = (boxCoords, text) => {
-            if (!boxCoords || !Array.isArray(boxCoords) || boxCoords.length < 8) return;
+        const drawTranslatedBox = (boxCoords, text) => {
+            if (!boxCoords || !Array.isArray(boxCoords) || boxCoords.length < 8 || !text) return;
 
             const coords = boxCoords.map(Number);
             const x = Math.min(coords[0], coords[2], coords[4], coords[6]);
@@ -26,29 +16,36 @@ export class ImageOverlayRenderer {
             const width = Math.max(coords[0], coords[2], coords[4], coords[6]) - x;
             const height = Math.max(coords[1], coords[3], coords[5], coords[7]) - y;
 
-            ctx.strokeRect(x, y, width, height);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+            ctx.fillRect(x - 4, y - 4, width + 8, height + 8);
 
-            if (text) {
-                const textY = y > 20 ? y - 5 : y + height + 16;
-                ctx.fillText(text, x, textY);
-            }
+            const fontSize = Math.max(Math.round(height * 0.8), 14);
+            ctx.font = `bold ${fontSize}px sans-serif`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = Math.max(2, Math.round(fontSize / 8));
+            ctx.strokeText(text, x, y);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(text, x, y);
         };
 
         blocks.forEach(block => {
-            if (block.box && block.text) {
-                drawBox(block.box, block.text);
+            if (block.box && block.translatedText) {
+                drawTranslatedBox(block.box, block.translatedText);
             } else if (block.boxes && Array.isArray(block.boxes)) {
                 block.boxes.forEach(innerBox => {
-                    drawBox(innerBox.box, innerBox.text);
+                    drawTranslatedBox(innerBox.box, innerBox.translatedText);
                 });
             }
         });
 
         try {
-            imageElement.src = canvas.toDataURL('image/jpeg', 0.9);
+            imageElement.src = canvas.toDataURL('image/jpeg', 0.95);
         } catch (e) {
-            console.warn('[GlyphSwap] Tainted canvas detected. Replacing <img> with <canvas> in DOM.');
-
+            console.warn('[GlyphSwap] Tainted canvas. Swapping nodes...');
             canvas.className = imageElement.className;
             canvas.style.cssText = imageElement.style.cssText;
 

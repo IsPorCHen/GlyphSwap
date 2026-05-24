@@ -3,6 +3,8 @@ import { SecureImageFetcher } from './core/secureImageFetcher.js';
 import { ImageCompressor } from './core/imageCompressor.js';
 import { YandexOcrClient } from './core/yandexOcrClient.js';
 import { ImageOverlayRenderer } from './core/imageOverlayRenderer.js';
+import { GoogleTranslateClient } from './core/googleTranslateClient.js';
+import { TranslationOrchestrator } from './core/translationOrchestrator.js';
 
 function bootstrap() {
     console.log('[GlyphSwap] Initialization started.');
@@ -10,6 +12,9 @@ function bootstrap() {
     const imageFetcher = new SecureImageFetcher();
     const imageCompressor = new ImageCompressor();
     const ocrClient = new YandexOcrClient();
+    const translateClient = new GoogleTranslateClient('ru'); // переводим на русский
+    const renderer = new ImageOverlayRenderer();
+    const orchestrator = new TranslationOrchestrator(translateClient, renderer);
 
     const handleImageTranslationRequest = async (imageElement) => {
         try {
