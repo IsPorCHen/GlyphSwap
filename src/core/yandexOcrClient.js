@@ -3,37 +3,33 @@ export class YandexOcrClient {
         this.apiUrl = 'https://translate.yandex.net/ocr/v1.1/recognize';
     }
 
-    /**
-     * Sends the image to Yandex strictly to extract text and its bounding boxes.
-     * @param {Blob} imageBlob - The compressed image data.
-     * @returns {Promise<Object>} JSON containing recognized text blocks and their coordinates.
-     */
     async extractTextBlocks(imageBlob) {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
-            formData.append('file', imageBlob, 'ocr_image.jpg');
-
-            // srv=tr-image is required for the request to be routed correctly inside Yandex
-            const url = `${this.apiUrl}?srv=tr-image`;
+            formData.append('file', imageBlob, 'image.jpg');
 
             GM_xmlhttpRequest({
                 method: 'POST',
-                url: url,
+                url: `${this.apiUrl}?srv=tr-image`,
                 data: formData,
+                headers: {
+                    'Origin': 'https://translate.yandex.ru',
+                    'Referer': 'https://translate.yandex.ru/'
+                },
                 onload: (response) => {
                     if (response.status >= 200 && response.status < 300) {
                         try {
                             const result = JSON.parse(response.responseText);
                             resolve(result);
-                        } catch (parseError) {
-                            reject(new Error(`Failed to parse Yandex OCR response: ${parseError.message}`));
+                        } catch (e) {
+                            reject(new Error(`Parse error: ${e.message}`));
                         }
                     } else {
-                        reject(new Error(`Yandex OCR API returned status ${response.status}`));
+                        console.error('[GlyphSwap] Yandex API error response:', response.responseText);
+                        reject(new Error(`Yandex OCR returned status ${response.status}`));
                     }
                 },
-                onerror: (error) => reject(new Error('Network error during OCR request')),
-                ontimeout: () => reject(new Error('Yandex OCR request timed out'))
+                onerror: (err) => reject(new Error('Network error')),
             });
         });
     }
