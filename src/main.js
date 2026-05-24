@@ -2,6 +2,7 @@ import { ImageHoverWidget } from './core/imageHoverWidget.js';
 import { SecureImageFetcher } from './core/secureImageFetcher.js';
 import { ImageCompressor } from './core/imageCompressor.js';
 import { YandexOcrClient } from './core/yandexOcrClient.js';
+import { ImageOverlayRenderer } from './core/imageOverlayRenderer.js';
 
 function bootstrap() {
     console.log('[GlyphSwap] Initialization started.');
@@ -22,7 +23,9 @@ function bootstrap() {
             const ocrResult = await ocrClient.extractTextBlocks(imageBlob);
 
             console.log('[GlyphSwap] OCR successful! Extracted blocks:', ocrResult);
-            alert('Текст и координаты успешно найдены! Посмотри объект в консоли.');
+
+            const renderer = new ImageOverlayRenderer();
+            renderer.render(imageElement, ocrResult.data.blocks);
 
         } catch (error) {
             console.error('[GlyphSwap] Error processing image:', error);
