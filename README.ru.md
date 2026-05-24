@@ -14,7 +14,7 @@
 ## Установка
 1. **Менеджер скриптов:** Убедитесь, что у вас установлен [Tampermonkey](https://www.tampermonkey.net/) или [Violentmonkey](https://violentmonkey.github.io/).
 2. **Установка:** Нажмите на ссылку ниже, чтобы установить последнюю версию скрипта:
-   [**Установить GlyphSwap**](https://github.com/IsPorCHen/GlyphSwap/raw/main/dist/glyphswap.user.js)
+   [**Установить GlyphSwap**](https://github.com/IsPorCHen/GlyphSwap/raw/main/https://github.com/IsPorCHen/GlyphSwap/releases/latest/download/glyphswap.user.js)
 
 ## Как пользоваться
 1. После установки перейдите на любую страницу с картинками.

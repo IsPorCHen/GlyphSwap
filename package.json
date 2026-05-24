@@ -1,7 +1,8 @@
 {
   "name": "glyphswap",
   "version": "1.0.0",
-  "description": "",
+  "author": "IsPorCHen",
+  "description": "Instant text translation inside images.",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
@@ -14,7 +15,6 @@
     "url": "git+https://github.com/IsPorCHen/GlyphSwap.git"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
