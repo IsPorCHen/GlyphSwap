@@ -1,4 +1,4 @@
-import { ImageContextMenuInterceptor } from './core/imageContextMenuInterceptor.js';
+import { ImageHoverWidget } from './core/imageHoverWidget.js';
 import { SecureImageFetcher } from './core/secureImageFetcher.js';
 
 function bootstrap() {
@@ -8,12 +8,12 @@ function bootstrap() {
 
     const handleImageTranslationRequest = async (imageElement) => {
         try {
-            console.log('[GlyphSwap] Intercepted image for translation. Bypassing CORS to fetch blob...', imageElement.src);
+            console.log('[GlyphSwap] Intercepted image. Bypassing CORS to fetch blob...', imageElement.src);
 
             const imageBlob = await imageFetcher.fetchAsBlob(imageElement.src);
 
-            console.log(`[GlyphSwap] Successfully extracted Blob. Size: ${imageBlob.size} bytes. Type: ${imageBlob.type}`);
-            alert(`Картинка успешно захвачена в обход CORS!\nРазмер: ${imageBlob.size} байт.`);
+            console.log(`[GlyphSwap] Successfully extracted Blob. Size: ${imageBlob.size} bytes.`);
+            alert(`Картинка захвачена по кнопке!\nРазмер: ${imageBlob.size} байт.`);
 
         } catch (error) {
             console.error('[GlyphSwap] Error processing image:', error);
@@ -21,10 +21,10 @@ function bootstrap() {
         }
     };
 
-    const contextMenuInterceptor = new ImageContextMenuInterceptor(handleImageTranslationRequest);
-    contextMenuInterceptor.attachListeners();
+    const hoverWidget = new ImageHoverWidget(handleImageTranslationRequest);
+    hoverWidget.attachListeners();
 
-    console.log('[GlyphSwap] Successfully injected context menu interceptor.');
+    console.log('[GlyphSwap] Successfully injected hover widget UI.');
 }
 
 bootstrap();
